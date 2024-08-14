@@ -105,6 +105,8 @@ services:
     build:
       dockerfile: docker/app/Dockerfile
       context: ./
+      args:
+        WITH_XDEBUG: 1
     # volumes:
     #  - ./app:/var/app
     depends_on:
@@ -112,6 +114,8 @@ services:
     networks:
       - temporal-network
     environment:
+      - PHP_IDE_CONFIG=serverName=sample-php
+      - XDEBUG_CONFIG=client_host=${XDEBUG_HOST:-host.docker.internal} client_port=${XDEBUG_PORT:-9003}
       - TEMPORAL_CLI_ADDRESS=temporal:7233
       - TELEMETRY_DRIVER=otel
       - OTEL_TRACES_EXPORTER=otlp

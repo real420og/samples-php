@@ -19,6 +19,16 @@ RUN pecl channel-update pecl.php.net
 RUN pecl install protobuf-${PROTOBUF_VERSION} grpc \
     && docker-php-ext-enable protobuf grpc
 
+COPY --from=mlocati/php-extension-installer /usr/bin/install-php-extensions /usr/local/bin/
+
+ARG WITH_XDEBUG=0
+RUN if [ $WITH_XDEBUG -eq "1" ]; then \
+    install-php-extensions xdebug \
+    && echo 'xdebug.mode=debug' >> "$PHP_INI_DIR/conf.d/docker-php-ext-xdebug.ini" \
+    && echo 'xdebug.start_with_request=yes' >> "$PHP_INI_DIR/conf.d/docker-php-ext-xdebug.ini" \
+    && echo 'xdebug.log_level=0' >> "$PHP_INI_DIR/conf.d/docker-php-ext-xdebug.ini"; \
+  fi
+
 # Install Temporal CLI
 COPY --from=temporalio/admin-tools /usr/local/bin/tctl /usr/local/bin/tctl
 
