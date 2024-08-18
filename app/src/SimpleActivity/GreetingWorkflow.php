@@ -37,7 +37,7 @@ class GreetingWorkflow implements GreetingWorkflowInterface
     public function greet(string $name): \Generator
     {
         // This is a blocking call that returns only after the activity has completed.
-        return yield $this->greetingActivity->composeGreeting('Hello', $name);
+        return yield $this->greetingActivity->composeGreeting('Simple Hello', $name);
     }
 }
 // @@@SNIPEND

@@ -107,8 +107,8 @@ services:
       context: ./
       args:
         WITH_XDEBUG: 1
-    # volumes:
-    #  - ./app:/var/app
+    volumes:
+     - ./app:/var/app
     depends_on:
       - temporal
     networks:
